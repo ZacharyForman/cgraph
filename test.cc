@@ -6,8 +6,10 @@
 #include <iostream>
 
 int main() {
-  cgraph::Matrix<float, 5, 5> m;
-  cgraph::ColVector<float, 5> v;
+  using namespace cgraph;
+
+  Matrix<float, 5, 5> m;
+  ColVector<float, 5> v;
   for (std::size_t i = 0; i < 5; i++) {
     m(i,i) = 1;
     v(i) = static_cast<float>(i);
@@ -15,18 +17,18 @@ int main() {
 
   std::cout << m * v << std::endl;
 
-  auto sq = cgraph::Matrix<double, 2, 2>::Identity();
-  cgraph::ColVector<double, 2> u {
+  auto sq = Matrix<double, 2, 2>::Identity();
+  ColVector<double, 2> u {
     3.0,
     4.0
   };
   std::cout << sq * u + u << std::endl;
 
-  cgraph::Matrix<double, 2, 2> a {
+  Matrix<double, 2, 2> a {
     1.0, 2.0,
     2.0, 1.0
   };
-  cgraph::Matrix<double, 2, 2> b {
+  Matrix<double, 2, 2> b {
     1.0, 0.0,
     0.0, 1.0
   };
@@ -38,8 +40,8 @@ int main() {
   b /= 2;
   std::cout << a + b << std::endl;
 
-  auto rmat = cgraph::Matrix<double, 3, 3>::Random();
-  std::cout << 2 * rmat - cgraph::Matrix<double, 3, 3>::Ones() << std::endl;
+  auto rmat = Matrix<double, 3, 3>::Random();
+  std::cout << 2 * rmat - Matrix<double, 3, 3>::Ones() << std::endl;
   rmat *= rmat;
   std::cout << rmat << std::endl;
   rmat += rmat;
@@ -47,7 +49,7 @@ int main() {
   rmat -= rmat;
   std::cout << rmat << std::endl;
 
-  cgraph::Matrix<int8_t, 2, 2> cmat(
+  Matrix<int8_t, 2, 2> cmat(
     'a','b',
     'c','d'
   );
@@ -57,7 +59,7 @@ int main() {
   cmat -= cmat;
   cmat - cmat + cmat * cmat;
   std::cout << cmat + cmat << std::endl;
-  cgraph::Matrix<int8_t, 2, 2> foo(
+  Matrix<int8_t, 2, 2> foo(
     'A', 'B',
     'C', 'D'
   );
@@ -69,17 +71,19 @@ int main() {
   std::cout << foo << std::endl;
   std::cout << foo.Transpose() << std::endl;
 
-  auto var1 = cgraph::CreateVariable(cgraph::Matrix<double, 3, 3>::Random());
+  auto var1 = CreateVariable(Matrix<double, 3, 3>::Random());
   std::cout << var1 << std::endl;
 
-  auto var2 = cgraph::CreateVariable(
-      2 * cgraph::Matrix<double, 3, 3>::Identity()
+  auto var2 = CreateVariable(
+      2 * Matrix<double, 3, 3>::Identity()
   );
 
-  cgraph::Source<cgraph::Matrix<double, 3, 3>> e1(var1);
-  cgraph::Source<cgraph::Matrix<double, 3, 3>> e2(var2);
+  Source<Matrix<double, 3, 3>> e1(var1);
+  Source<Matrix<double, 3, 3>> e2(var2);
   std::cout << e1() << std::endl;
   std::cout << e2() << std::endl;
   auto e3 = e1 * e2;
+  std::cout << e3() << std::endl;
+  var2()(0,0) = 4;
   std::cout << e3() << std::endl;
 }

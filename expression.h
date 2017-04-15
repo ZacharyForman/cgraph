@@ -52,17 +52,17 @@ public:
   using OutputType = T;
 
   // Construct the expression.
-  Expression(Variable<T> &v) : var(&v) {}
+  Expression(Variable<T> &v) : var(v) {}
 
   // Access the variable.
   OutputType &operator()() {
-    return (*var)();
+    return var();
   }
   const OutputType &operator()() const {
-    return (*var)();
+    return var();
   }
 private:
-  Variable<T> *var;
+  Variable<T> &var;
 };
 
 auto binary_multiplier = [](const auto &expr1, const auto &expr2)
