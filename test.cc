@@ -1,10 +1,11 @@
+#include "expression.h"
 #include "matrix.h"
+#include "variable.h"
 
 #include <cstddef>
 #include <iostream>
 
-int main()
-{
+int main() {
   cgraph::Matrix<float, 5, 5> m;
   cgraph::ColVector<float, 5> v;
   for (std::size_t i = 0; i < 5; i++) {
@@ -67,4 +68,18 @@ int main()
   foo += 1.3;
   std::cout << foo << std::endl;
   std::cout << foo.Transpose() << std::endl;
+
+  auto var1 = cgraph::CreateVariable(cgraph::Matrix<double, 3, 3>::Random());
+  std::cout << var1 << std::endl;
+
+  auto var2 = cgraph::CreateVariable(
+      2 * cgraph::Matrix<double, 3, 3>::Identity()
+  );
+
+  cgraph::Source<cgraph::Matrix<double, 3, 3>> e1(var1);
+  cgraph::Source<cgraph::Matrix<double, 3, 3>> e2(var2);
+  std::cout << e1() << std::endl;
+  std::cout << e2() << std::endl;
+  auto e3 = e1 * e2;
+  std::cout << e3() << std::endl;
 }

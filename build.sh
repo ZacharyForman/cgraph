@@ -29,7 +29,7 @@ for file in $srcs; do
   obj="$file"
   obj="${obj_dir}/${obj/%cc/o}"
   objects="$obj $objects"
-  dependency=$(g++ -I${src_dir} -MM -MT "$obj" -std=c++14 $file)
+  dependency=$(g++ -I${src_dir} -MM -MT "$obj" -std=c++17 $file)
   # Remove implanted newlines
   dependency=$(echo $dependency | sed 's/ \\//g')
   rule=$(printf '%s\n\t$(CC) $(CFLAGS) %s -o %s' "$dependency" "$file" "$obj")
@@ -63,8 +63,8 @@ WARNINGS='-fmax-errors=5 -fstrict-aliasing -fstrict-overflow
 # build the actual makefile
 echo 'CC=g++' > makefile
 echo >> makefile
-echo CFLAGS=$WARNINGS -c -O2 -std=c++14 -I${src_dir} >> makefile
-echo LINKFLAGS=-std=c++14 >> makefile
+echo CFLAGS=$WARNINGS -c -O2 -std=c++17 -I${src_dir} >> makefile
+echo LINKFLAGS=-std=c++17 >> makefile
 echo >> makefile
 echo "OBJ=$objects" >> makefile
 echo "BIN=$binary" >> makefile
